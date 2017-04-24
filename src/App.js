@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {AppBar, Panel, Layout, DatePicker} from 'react-toolbox';
-import { Card, CardMedia, CardTitle, CardText, CardActions } from 'react-toolbox/lib/card';
-// import DatePicker from 'react-toolbox/lib/date_picker';
+import { Card, CardMedia, CardTitle } from 'react-toolbox/lib/card';
 
 class App extends Component {
 
@@ -34,7 +33,7 @@ class App extends Component {
   _handleChange(date) {
     // console.log(date.getTime());
     let timestamp = date.getTime();
-    let hexTimestamp = parseInt(timestamp).toString(16);
+    let hexTimestamp = parseInt(timestamp, 10).toString(16);
     let hexColor = hexTimestamp.substr(-6);
 
     this.setState({
