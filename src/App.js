@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {AppBar, Panel, Layout, DatePicker} from 'react-toolbox';
 import { Card, CardMedia, CardTitle } from 'react-toolbox/lib/card';
+import ReactGA from 'react-ga';
 
 class App extends Component {
 
@@ -31,10 +32,15 @@ class App extends Component {
   }
 
   _handleChange(date) {
-    // console.log(date.getTime());
     let timestamp = date.getTime();
     let hexTimestamp = parseInt(timestamp, 10).toString(16);
     let hexColor = hexTimestamp.substr(-6);
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Obtain color',
+      value: hexColor
+    });
 
     this.setState({
       date: date,
@@ -56,6 +62,10 @@ class App extends Component {
         </Card>
       )
     }
+  }
+
+  componentDidMount() {
+    ReactGA.initialize('UA-62979020-3');
   }
 
   render() {
