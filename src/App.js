@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {AppBar, Panel, Layout, DatePicker} from 'react-toolbox';
+import AppBar from 'react-toolbox/lib/app_bar';
+import { Layout, Panel } from 'react-toolbox';
+import DatePicker from 'react-toolbox/lib/date_picker';
 import { Card, CardMedia, CardTitle } from 'react-toolbox/lib/card';
 import ReactGA from 'react-ga';
 
@@ -38,8 +40,7 @@ class App extends Component {
 
     ReactGA.event({
       category: 'User',
-      action: 'Obtain color',
-      value: hexColor
+      action: 'Obtain color'
     });
 
     this.setState({
