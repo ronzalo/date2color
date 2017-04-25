@@ -4,6 +4,11 @@ import { Layout, Panel } from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import { Card, CardMedia, CardTitle } from 'react-toolbox/lib/card';
 import ReactGA from 'react-ga';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import Button from 'react-toolbox/lib/button';
+import Tooltip from 'react-toolbox/lib/tooltip';
+
+const TooltipButton = Tooltip(Button);
 
 class App extends Component {
 
@@ -12,7 +17,8 @@ class App extends Component {
 
     this.state = {
       date: null,
-      hexColor: null
+      hexColor: null,
+      value: null
     }
 
     this._handleChange = this._handleChange.bind(this);
@@ -29,8 +35,20 @@ class App extends Component {
     });
   }
 
+  _buttonStyle(){
+    return ({
+      position: 'absolute',
+      right: '10px',
+      bottom: '10px'
+    })
+  }
+
   _colorTitle() {
-    return `Tu color es: #${this.state.hexColor}`;
+    return (
+      <div>
+        <span>{`Tu color es: #${this.state.hexColor}`}</span>
+      </div>
+    );
   }
 
   _handleChange(date) {
@@ -49,17 +67,27 @@ class App extends Component {
     });
   }
 
+  _handleCopy() {
+    
+  }
+
   _renderCard() {
     if(this.state.hexColor) {
       return (
         <Card style={this._cardStyle()}>
-          <CardTitle
-            title={this._colorTitle()}
-          />
+          <CardTitle title={this._colorTitle()} />
           <CardMedia
             color={`#${this.state.hexColor}`}
             aspectRatio='wide'
-          />
+          >
+            <CopyToClipboard text={this.state.hexColor}
+              onCopy={() => this._handleCopy()}>
+              <TooltipButton icon="description" floating mini
+                            style={this._buttonStyle()}
+                            tooltipShowOnClick={true}
+                            tooltip="Copiado!" />
+            </CopyToClipboard>
+          </CardMedia>
         </Card>
       )
     }
