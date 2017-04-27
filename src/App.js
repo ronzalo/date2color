@@ -2,16 +2,11 @@ import React, {Component} from 'react';
 import AppBar from 'react-toolbox/lib/app_bar';
 import {Layout, Panel} from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
-import {Card, CardMedia, CardTitle} from 'react-toolbox/lib/card';
 import ReactGA from 'react-ga';
-import CopyToClipboard from 'react-copy-to-clipboard';
-import Button from 'react-toolbox/lib/button';
-import Tooltip from 'react-toolbox/lib/tooltip';
+import moment from 'moment';
 
-import Share from './components/Share'
-import moment from 'moment'
-
-const TooltipButton = Tooltip(Button);
+import Share from './components/Share';
+import CardComponent from './components/CardComponent';
 
 class App extends Component {
 
@@ -27,21 +22,10 @@ class App extends Component {
     this._handleChange = this
       ._handleChange
       .bind(this);
-    this._cardStyle = this
-      ._cardStyle
-      .bind(this);
-  }
-
-  _cardStyle() {
-    return {width: '350px'};
   }
 
   _panelStyle() {
     return ({align: 'center'});
-  }
-
-  _buttonStyle() {
-    return ({position: 'absolute', right: '10px', bottom: '10px'})
   }
 
   _formattedDate() {
@@ -78,22 +62,7 @@ class App extends Component {
     if (this.state.hexColor) {
       return (
         <div>
-          <Card style={this._cardStyle()}>
-            <CardTitle title={this._colorTitle()}/>
-            <CardMedia color={`#${this.state.hexColor}`} aspectRatio='wide'>
-              <CopyToClipboard
-                text={this.state.hexColor}
-                onCopy={() => console.log('copiado! ' + this.state.hexColor)}>
-                <TooltipButton
-                  icon="description"
-                  floating
-                  mini
-                  style={this._buttonStyle()}
-                  tooltipShowOnClick={true}
-                  tooltip="Copiado!"/>
-              </CopyToClipboard>
-            </CardMedia>
-          </Card>
+          <CardComponent hexColor={this.state.hexColor}/>
           <Share
             title={this._shareTitle()}
             url="http://date2color.herokuapp.com"
