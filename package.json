@@ -2,7 +2,7 @@
   "name": "ColorFromDate",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://date2color.herokuapp.com",
+  "homepage": "http://gonzalomoreno.me/date2color",
   "devDependencies": {
     "autoprefixer": "6.7.2",
     "babel-core": "6.22.1",
@@ -57,6 +57,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
