@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import AppBar from 'react-toolbox/lib/app_bar';
-import { Layout, Panel } from 'react-toolbox';
+import {Layout, Panel} from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
-import { Card, CardMedia, CardTitle } from 'react-toolbox/lib/card';
+import {Card, CardMedia, CardTitle} from 'react-toolbox/lib/card';
 import ReactGA from 'react-ga';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Button from 'react-toolbox/lib/button';
 import Tooltip from 'react-toolbox/lib/tooltip';
-import { ShareButtons, generateShareIcon } from 'react-share';
+
+import Share from './components/Share'
 import moment from 'moment'
 
 const TooltipButton = Tooltip(Button);
-
-const {
-  FacebookShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} = ShareButtons;
-
-const FacebookIcon = generateShareIcon('facebook');
-const TwitterIcon = generateShareIcon('twitter');
-const WhatsappIcon = generateShareIcon('whatsapp');
 
 class App extends Component {
 
@@ -33,8 +24,12 @@ class App extends Component {
       value: null
     }
 
-    this._handleChange = this._handleChange.bind(this);
-    this._cardStyle    = this._cardStyle.bind(this);
+    this._handleChange = this
+      ._handleChange
+      .bind(this);
+    this._cardStyle = this
+      ._cardStyle
+      .bind(this);
   }
 
   _cardStyle() {
@@ -42,17 +37,11 @@ class App extends Component {
   }
 
   _panelStyle() {
-    return ({
-      align: 'center'
-    });
+    return ({align: 'center'});
   }
 
-  _buttonStyle(){
-    return ({
-      position: 'absolute',
-      right: '10px',
-      bottom: '10px'
-    })
+  _buttonStyle() {
+    return ({position: 'absolute', right: '10px', bottom: '10px'})
   }
 
   _formattedDate() {
@@ -80,71 +69,38 @@ class App extends Component {
     let hexTimestamp = parseInt(timestamp, 10).toString(16);
     let hexColor = hexTimestamp.substr(-6);
 
-    ReactGA.event({
-      category: 'User',
-      action: 'Obtain color'
-    });
+    ReactGA.event({category: 'User', action: 'Obtain color'});
 
-    this.setState({
-      date: date,
-      hexColor: hexColor
-    });
+    this.setState({date: date, hexColor: hexColor});
   }
 
   _renderCard() {
-    if(this.state.hexColor) {
+    if (this.state.hexColor) {
       return (
         <div>
           <Card style={this._cardStyle()}>
-            <CardTitle title={this._colorTitle()} />
-            <CardMedia
-              color={`#${this.state.hexColor}`}
-              aspectRatio='wide'
-            >
-              <CopyToClipboard text={this.state.hexColor}
+            <CardTitle title={this._colorTitle()}/>
+            <CardMedia color={`#${this.state.hexColor}`} aspectRatio='wide'>
+              <CopyToClipboard
+                text={this.state.hexColor}
                 onCopy={() => console.log('copiado! ' + this.state.hexColor)}>
-                <TooltipButton icon="description" floating mini
-                              style={this._buttonStyle()}
-                              tooltipShowOnClick={true}
-                              tooltip="Copiado!" />
+                <TooltipButton
+                  icon="description"
+                  floating
+                  mini
+                  style={this._buttonStyle()}
+                  tooltipShowOnClick={true}
+                  tooltip="Copiado!"/>
               </CopyToClipboard>
             </CardMedia>
-            
           </Card>
-          {this._renderShare()}
+          <Share
+            title={this._shareTitle()}
+            url="http://date2color.herokuapp.com"
+            picture={this._pictureUrl()}/>
         </div>
       )
     }
-  }
-
-  _renderShare() {
-    return (
-      <div
-        style={{display: 'inline-flex', verticalAlign: 'middle'}}
-      >
-        <FacebookShareButton 
-          title={ this._shareTitle() }
-          url="http://date2color.herokuapp.com"
-          picture={this._pictureUrl()}     
-        >
-          <FacebookIcon size={32} round={true} />
-        </FacebookShareButton>
-        <TwitterShareButton 
-          title={ this._shareTitle() }
-          url="http://date2color.herokuapp.com"
-          hashtags={["date2color"]}    
-        >
-          <TwitterIcon size={32} round={true} />
-        </TwitterShareButton>
-        <WhatsappShareButton 
-          title={ this._shareTitle() }
-          url="http://date2color.herokuapp.com"
-          picture={this._pictureUrl()}     
-        >
-          <WhatsappIcon size={32} round={true} />
-        </WhatsappShareButton>
-      </div>
-    )
   }
 
   componentDidMount() {
@@ -155,14 +111,14 @@ class App extends Component {
     return (
       <Layout>
         <Panel style={this._panelStyle()}>
-          <AppBar title='Color Hex From Date' />
+          <AppBar title='Color Hex From Date'/>
           <DatePicker
             label='Date'
-            onChange={this._handleChange.bind(event)}
+            onChange={this
+            ._handleChange
+            .bind(event)}
             value={this.state.date}
-            sundayFirstDayOfWeek={false}
-          />
-          {this._renderCard()}
+            sundayFirstDayOfWeek={false}/> {this._renderCard()}
         </Panel>
       </Layout>
     );
