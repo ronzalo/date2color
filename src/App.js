@@ -8,15 +8,22 @@ import moment from 'moment';
 import Share from './components/Share';
 import CardComponent from './components/CardComponent';
 
+import "../vendor/color_classifier";
+import {dataset} from "./data/dataset";
+
 class App extends Component {
 
   constructor() {
     super();
 
+    const classifier = new window.ColorClassifier();
+    classifier.learn(dataset);
+
     this.state = {
       date: null,
       hexColor: null,
-      value: null
+      nameColor: null,
+      classifier: classifier
     }
 
     this._handleChange = this
@@ -37,13 +44,18 @@ class App extends Component {
   }
 
   _shareTitle() {
-    return `Según esta fecha ${this._formattedDate()}, mi color es el #${this.state.hexColor} \n ¡¡Encuentra el tuyo!!`
+    return `Según la fecha ${this._formattedDate()}, mi color es el ${this.state.nameColor} (#${this.state.hexColor}) \n ¡¡Encuentra el tuyo!!`
+  }
+
+  _hexToName(hexColor) {
+    let classifier = this.state.classifier;
+    return classifier.classify(`#${hexColor}`);
   }
 
   _colorTitle() {
     return (
       <div>
-        <span>{`Tu color es: #${this.state.hexColor}`}</span>
+        <span>{`Tu color es: #${this.state.nameColor}`}</span>
       </div>
     );
   }
@@ -52,17 +64,18 @@ class App extends Component {
     let timestamp = date.getTime();
     let hexTimestamp = parseInt(timestamp, 10).toString(16);
     let hexColor = hexTimestamp.substr(-6);
+    let nameColor = this._hexToName(hexColor);
 
     ReactGA.event({category: 'User', action: 'Obtain color'});
 
-    this.setState({date: date, hexColor: hexColor});
+    this.setState({date: date, hexColor: hexColor, nameColor: nameColor});
   }
 
   _renderCard() {
     if (this.state.hexColor) {
       return (
         <div>
-          <CardComponent hexColor={this.state.hexColor}/>
+          <CardComponent hexColor={this.state.hexColor} nameColor={this.state.nameColor}/>
           <Share
             title={this._shareTitle()}
             url="http://date2color.herokuapp.com"

@@ -10,7 +10,7 @@ class CardComponent extends Component {
     _colorTitle() {
         return (
             <div>
-                <span>{`Tu color es: #${this.props.hexColor}`}</span>
+                <span>{`Tu color es el ${this.props.nameColor}`}</span>
             </div>
         );
     }
@@ -34,7 +34,7 @@ class CardComponent extends Component {
                             right: '10px',
                             bottom: '10px'
                         }}
-                            tooltip="Click para copiar"/>
+                            tooltip="Click para copiar hexadecimal"/>
                     </CopyToClipboard>
                 </CardMedia>
             </Card>
