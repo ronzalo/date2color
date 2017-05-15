@@ -1,15 +1,18 @@
 import React, {Component} from 'react';
 import AppBar from 'react-toolbox/lib/app_bar';
-import {Layout, Panel} from 'react-toolbox';
+import {Layout, Panel, Tab, Tabs} from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import ReactGA from 'react-ga';
 import moment from 'moment';
 
 import Share from './components/Share';
 import CardComponent from './components/CardComponent';
+import Jumbotron from './components/Jumbotron';
 
 import "../vendor/color_classifier";
 import {dataset} from "./data/dataset";
+
+import './index.css';
 
 class App extends Component {
 
@@ -23,7 +26,8 @@ class App extends Component {
       date: null,
       hexColor: null,
       nameColor: null,
-      classifier: classifier
+      classifier: classifier,
+      index: 0
     }
 
     this._handleChange = this
@@ -71,6 +75,10 @@ class App extends Component {
     this.setState({date: date, hexColor: hexColor, nameColor: nameColor});
   }
 
+  _handleTabChange = (index) => {
+    this.setState({index});
+  };
+
   _renderCard() {
     if (this.state.hexColor) {
       return (
@@ -94,13 +102,22 @@ class App extends Component {
       <Layout>
         <Panel style={this._panelStyle()}>
           <AppBar title='Color Hex From Date'/>
-          <DatePicker
-            label='Date'
-            onChange={this
-            ._handleChange
-            .bind(event)}
-            value={this.state.date}
-            sundayFirstDayOfWeek={false}/> {this._renderCard()}
+          <Jumbotron>
+            <DatePicker
+              label='Date'
+              onChange={this
+              ._handleChange
+              .bind(event)}
+              value={this.state.date}
+              sundayFirstDayOfWeek={false}/>
+          </Jumbotron>
+          
+          <section>
+            <Tabs  index={this.state.index} fixed onChange={this._handleTabChange}>
+              <Tab hidden label="Nombre Color">{this._renderCard()}</Tab>
+              <Tab hidden label="Colores Complementarios"></Tab>
+            </Tabs>
+          </section>
         </Panel>
       </Layout>
     );
