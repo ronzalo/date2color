@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import AppBar from 'react-toolbox/lib/app_bar';
 import {Layout, Panel } from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
+import { MenuItem } from 'react-toolbox/lib/menu';
+import Drawer from 'react-toolbox/lib/drawer';
 import ReactGA from 'react-ga';
 import moment from 'moment';
 
@@ -27,7 +29,8 @@ class App extends Component {
       hexColor: null,
       nameColor: null,
       classifier: classifier,
-      index: 0
+      index: 0,
+      drawerActive: false
     }
 
     this._handleChange = this
@@ -79,6 +82,10 @@ class App extends Component {
     this.setState({index});
   };
 
+  _handleToggle = () => {
+    this.setState({drawerActive: !this.state.drawerActive});
+  };
+
   _renderCard() {
     if (this.state.hexColor) {
       return (
@@ -100,8 +107,13 @@ class App extends Component {
   render() {
     return (
       <Layout>
+        <Drawer active={this.state.drawerActive} onOverlayClick={this._handleToggle}>
+          <AppBar title='Color Hex From Date' leftIcon='menu' onLeftIconClick={this._handleToggle}/>
+          <MenuItem value='download' icon='info' caption='Info' />
+        </Drawer>
+
         <Panel style={this._panelStyle()}>
-          <AppBar title='Color Hex From Date'/>
+          <AppBar title='Color Hex From Date' leftIcon='menu' onLeftIconClick={this._handleToggle}/>
           <Jumbotron>
             <DatePicker
               label='Seleccione una fecha'
