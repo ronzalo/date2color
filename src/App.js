@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AppBar from 'react-toolbox/lib/app_bar';
-import {Layout, Panel, Tab, Tabs} from 'react-toolbox';
+import {Layout, Panel } from 'react-toolbox';
 import DatePicker from 'react-toolbox/lib/date_picker';
 import ReactGA from 'react-ga';
 import moment from 'moment';
@@ -59,7 +59,7 @@ class App extends Component {
   _colorTitle() {
     return (
       <div>
-        <span>{`Tu color es: #${this.state.nameColor}`}</span>
+        <span>{`Tu color es: ${this.state.nameColor}`}</span>
       </div>
     );
   }
@@ -104,20 +104,14 @@ class App extends Component {
           <AppBar title='Color Hex From Date'/>
           <Jumbotron>
             <DatePicker
-              label='Date'
+              label='Seleccione una fecha'
               onChange={this
               ._handleChange
               .bind(event)}
               value={this.state.date}
               sundayFirstDayOfWeek={false}/>
+            {this._renderCard()}
           </Jumbotron>
-          
-          <section>
-            <Tabs  index={this.state.index} fixed onChange={this._handleTabChange}>
-              <Tab hidden label="Nombre Color">{this._renderCard()}</Tab>
-              <Tab hidden label="Colores Complementarios"></Tab>
-            </Tabs>
-          </section>
         </Panel>
       </Layout>
     );

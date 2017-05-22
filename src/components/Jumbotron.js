@@ -6,7 +6,8 @@ const style = {
         background: `url(${Background})`,
         backgroundSize: 'cover',
         padding: '1px',
-        opacity: '0.8'
+        opacity: '0.8',
+        height: '800px'
     },
     text: {
         maxWidth: "600px",
@@ -15,6 +16,10 @@ const style = {
         lineHeight: "60px",
         marginLeft: "auto",
         marginRight: "auto"
+    },
+    form: {
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
+        padding: "10px"
     }
     
 }
@@ -25,7 +30,9 @@ class Jumbotron extends Component {
             <div id="jumbotron" style={style.background}>
                 <div style={style.text}>
                     <h1>Ingresa una fecha y descubre su color!</h1>
-                    {this.props.children}
+                    <div style={style.form}>
+                        {this.props.children}
+                    </div>
                 </div>
             </div>
         );

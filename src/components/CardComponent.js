@@ -10,16 +10,14 @@ class CardComponent extends Component {
     _colorTitle() {
         return (
             <div>
-                <span>{`Tu color es el ${this.props.nameColor}`}</span>
+                <span>{`El color es el ${this.props.nameColor} (${this.props.hexColor})`}</span>
             </div>
         );
     }
 
     render() {
         return (
-            <Card style={{
-                width: '350px'
-            }}>
+            <Card>
                 <CardTitle title={this._colorTitle()}/>
                 <CardMedia color={`#${this.props.hexColor}`} aspectRatio='wide'>
                     <CopyToClipboard
